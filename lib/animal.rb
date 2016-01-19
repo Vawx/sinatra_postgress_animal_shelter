@@ -8,7 +8,7 @@ class Animal
     @type = attributes[:type]
     @breed = attributes[:breed]
     @id = attributes[:id]
-    @customer_id = -1
+    @customer_id = attributes[:customer_id]
   end
 
   def save
@@ -18,8 +18,40 @@ class Animal
   end
 
   def add_customer(customer_id)
-    result = DB.exec("UPDATE animals SET customer_id = #{customer_id}")
-    @customer_id = customer_id
+    DB.exec("UPDATE animals SET customer_id = #{customer_id} WHERE name = '#{self.name}';")
+  end
+
+  def self.sort_breeds
+    returned_animals = DB.exec("SELECT DISTINCT breed FROM animals ORDER BY breed ASC;")
+    animals = []
+    returned_animals.each do |animal|
+      name = animal["name"]
+      gender = animal["gender"]
+      admittance_date = animal["admittance_date"]
+      type = animal["type"]
+      breed = animal["breed"]
+      id = animal["id"].to_i
+      customer_id = animal["customer_id"].to_i
+      animals.push(Animal.new({name: name, gender: gender, type: type, breed: breed, id: id, customer_id: customer_id}))
+    end
+
+    animals
+  end
+
+  def self.sort_alpha
+    returned_animals = DB.exec("SELECT * FROM animals ORDER BY name ASC;")
+    animals = []
+    returned_animals.each do |animal|
+      name = animal["name"]
+      gender = animal["gender"]
+      admittance_date = animal["admittance_date"]
+      type = animal["type"]
+      breed = animal["breed"]
+      id = animal["id"].to_i
+      customer_id = animal["customer_id"].to_i
+      animals.push(Animal.new({name: name, gender: gender, type: type, breed: breed, id: id, customer_id: customer_id}))
+    end
+    animals
   end
 
   def self.find(id)
@@ -28,6 +60,22 @@ class Animal
         return animal
       end
     end
+  end
+
+  def self.find_by_breed(breed)
+    returned_animals = DB.exec("SELECT * FROM animals WHERE breed = '#{breed}';")
+    animals = []
+    returned_animals.each do |animal|
+      name = animal["name"]
+      gender = animal["gender"]
+      admittance_date = animal["admittance_date"]
+      type = animal["type"]
+      breed = animal["breed"]
+      id = animal["id"].to_i
+      customer_id = animal["customer_id"].to_i
+      animals.push(Animal.new({name: name, gender: gender, type: type, breed: breed, id: id, customer_id: customer_id}))
+    end
+    animals
   end
 
   def ==(another_animal)
@@ -44,7 +92,8 @@ class Animal
       type = animal["type"]
       breed = animal["breed"]
       id = animal["id"].to_i
-      animals.push(Animal.new({name: name, gender: gender, type: type, breed: breed, id: id}))
+      customer_id = animal["customer_id"].to_i
+      animals.push(Animal.new({name: name, gender: gender, type: type, breed: breed, id: id, customer_id: customer_id}))
     end
     animals
   end

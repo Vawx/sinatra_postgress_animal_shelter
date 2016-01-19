@@ -1,5 +1,5 @@
 class Customer
-  attr_accessor :name, :phone, :types_preference, :breed_preference
+  attr_accessor :name, :phone, :types_preference, :breed_preference, :animals
   attr_reader :id
 
   def initialize(attributes)
@@ -8,7 +8,6 @@ class Customer
     @types_preference = attributes[:types_preference]
     @breed_preference = attributes[:breed_preference]
     @id = attributes[:id]
-    @animals = []
   end
 
   def save
@@ -23,13 +22,8 @@ class Customer
     self.name == another_customer.name
   end
 
-  def add_animal(id)
-    Animals.push(id)
-  end
-
   def self.find(id)
     Customer.all.each do |customer|
-      binding.pry
       if customer.id.to_i == id
         return customer
       end

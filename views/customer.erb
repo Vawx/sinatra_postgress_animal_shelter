@@ -2,4 +2,12 @@
 <%= @customer.phone %>
 <%= @customer.types_preference %>
 <%= @customer.breed_preference %>
-<a href="/customers/<% @customer.id %>/connect_animal">Connect Animal</a>
+<h3>animals</h3>
+<ul>
+  <% @animals.each do |animal| %>
+    <% if @customer.id.to_i == animal.customer_id.to_i %>
+      <li><%= animal.name %></li>
+    <% end %>
+  <% end %>
+</ul>
+<a href="/customers/<%= @customer.id %>/connect_animal">Connect Animal</a>

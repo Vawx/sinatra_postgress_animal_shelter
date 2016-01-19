@@ -9,8 +9,9 @@ require 'pry'
 DB = PG.connect({dbname: "animal_shelter_test"})
 
 get '/' do
-  @animals = Animal.all
+  @animals = Animal.sort_alpha
   @customers = Customer.all
+  @breeds = Animal.sort_breeds
   erb :index
 end
 
@@ -44,6 +45,7 @@ end
 
 get '/customers/:id' do
   @customer = Customer.find(params[:id].to_i)
+  @animals = Animal.all
   erb :customer
 end
 
@@ -53,7 +55,20 @@ get '/customers/:id/connect_animal' do
   erb :add_animal
 end
 
+post '/customers/:id/connect_animal/:animal_id' do
+  @customer = Customer.find(params[:id].to_i)
+  @animal = Animal.find(params[:animal_id].to_i)
+  @animal.add_customer(@customer.id.to_i)
+  redirect '/customers/' + params[:id]
+end
+
 get '/animals/:id' do
   @animal = Animal.find(params[:id].to_i)
   erb :animal
+end
+
+get '/breeds/:breed' do
+  @breed = params[:breed]
+  @animals = Animal.find_by_breed(params[:breed])
+  erb :breed
 end

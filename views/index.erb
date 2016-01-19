@@ -19,5 +19,14 @@
   </ul>
 </div>
 
+<div>
+  <h3>Breeds</h3>
+  <ul>
+    <% @breeds.each do |breed| %>
+      <li><a href="/breeds/<%= breed.breed %>"><%= breed.breed %></a></li>
+    <% end %>
+  </ul>
+</div>
+
 <a href="/animals/new">Add New Animal</a>
 <a href="/customers/new">Add New Customer</a>

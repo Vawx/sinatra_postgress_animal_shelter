@@ -1,0 +1,17 @@
+<h1>Animals Available:</h1>
+<ul>
+    <% animal_check = false %>
+    <% @animals.each do |animal| %>
+      <% if animal.customer_id == 0  %>
+        <% animal_check = true %>
+        <li>
+          <form class="" action="/customers/<%= @customer.id %>/connect_animal/<%= animal.id %>" method="post">
+            <button type="submit"><%= animal.name %></button>
+          </form>
+        </li>
+      <% end %>
+    <% end %>
+  <% if !animal_check %>
+    <h4>No Animals Available</h4>
+  <% end %>
+</ul>
