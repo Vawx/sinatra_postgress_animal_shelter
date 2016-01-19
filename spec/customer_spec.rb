@@ -23,7 +23,7 @@ describe Customer do
 
   describe("#save") do
     it("adds a customer to the array of saved customer ") do
-      test_customer = Customer.new({:name => "Francis", :list_id => 1})
+      test_customer = Customer.new({:name => "Francis"})
       test_customer.save
       expect(Customer.all).to(eq([test_customer]))
     end
@@ -31,15 +31,15 @@ describe Customer do
 
   describe("#name") do
     it("lets you read the name out") do
-      test_customer = Customer.new({:name => "Francis", :list_id => 1})
+      test_customer = Customer.new({:name => "Francis"})
       expect(test_customer.name).to(eq("Francis"))
     end
   end
 
   describe("#==") do
     it("is the same customer if it has the same name and list ID") do
-      customer1 = Customer.new({:name => "Francis", :list_id => 1})
-      customer2 = Customer.new({:name => "Francis", :list_id => 1})
+      customer1 = Customer.new({:name => "Francis"})
+      customer2 = Customer.new({:name => "Francis"})
       expect(customer1).to(eq(customer2))
     end
   end

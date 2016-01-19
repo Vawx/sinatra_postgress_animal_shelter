@@ -1,18 +1,33 @@
 class Animal
-  attr_accessor :name, :gender, :admittance_date, :type, :breed
+  attr_accessor :name, :gender, :admittance_date, :type, :breed, :customer_id
   attr_reader :id
 
   def initialize(attributes)
     @name = attributes[:name]
     @gender = attributes[:gender]
-    @admittance_date = attributes[:admittance_date]
     @type = attributes[:type]
     @breed = attributes[:breed]
+    @id = attributes[:id]
+    @customer_id = -1
   end
 
   def save
-    result = DB.exec("INSERT INTO animals (name) VALUES ('#{@name}') RETURNING id;")
+    result = DB.exec("INSERT INTO animals (name, breed, gender, type) VALUES ('#{@name}','#{@breed}','#{@gender}','#{@type}') RETURNING id, admittance_date;")
     @id = result.first.fetch("id").to_i
+    @admittance_date = result.first.fetch("admittance_date")
+  end
+
+  def add_customer(customer_id)
+    result = DB.exec("UPDATE animals SET customer_id = #{customer_id}")
+    @customer_id = customer_id
+  end
+
+  def self.find(id)
+    Animal.all.each do |animal|
+      if animal.id == id
+        return animal
+      end
+    end
   end
 
   def ==(another_animal)
@@ -28,7 +43,8 @@ class Animal
       admittance_date = animal["admittance_date"]
       type = animal["type"]
       breed = animal["breed"]
-      animals << Animal.new({name: name, gender: gender, admittance_date: admittance_date, type: type, breed: breed})
+      id = animal["id"].to_i
+      animals.push(Animal.new({name: name, gender: gender, type: type, breed: breed, id: id}))
     end
     animals
   end

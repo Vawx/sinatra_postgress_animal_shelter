@@ -1,0 +1,23 @@
+<h1>Animal Doctor Clinic Place <small>animals <small>aren't <small><small>the doctors</small></small></small></small></h1>
+
+<div>
+  <h3>Animals</h3>
+  <ul>
+    <% @animals.each do |animal| %>
+      <%  %>
+      <li><a href="/animals/<%= animal.id %>"><%= animal.name %></a></li>
+    <% end %>
+  </ul>
+</div>
+
+<div>
+  <h3>Customers</h3>
+  <ul>
+    <% @customers.each do |customer| %>
+      <li><a href="/customers/<%= customer.id %>"><%= customer.name %></a></li>
+    <% end %>
+  </ul>
+</div>
+
+<a href="/animals/new">Add New Animal</a>
+<a href="/customers/new">Add New Customer</a>
