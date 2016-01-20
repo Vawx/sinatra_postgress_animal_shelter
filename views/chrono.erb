@@ -1,0 +1,11 @@
+<div>
+  <h3>Animals</h3>
+  <ul>
+    <% @animals.each do |animal| %>
+      <li>
+        <a href="/animals/<%= animal.id %>"><%= animal.name %></a>
+        <span> Date Admitted: <%= animal.admittance_date %></span>
+      </li>
+    <% end %>
+  </ul>
+</div>

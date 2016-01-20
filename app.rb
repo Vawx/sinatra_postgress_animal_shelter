@@ -72,3 +72,8 @@ get '/breeds/:breed' do
   @animals = Animal.find_by_breed(params[:breed])
   erb :breed
 end
+
+get '/chronological' do
+  @animals = Animal.sort_chrono
+  erb :chrono
+end

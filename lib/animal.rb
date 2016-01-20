@@ -9,6 +9,7 @@ class Animal
     @breed = attributes[:breed]
     @id = attributes[:id]
     @customer_id = attributes[:customer_id]
+    @admittance_date = attributes[:admittance_date]
   end
 
   def save
@@ -32,9 +33,9 @@ class Animal
       breed = animal["breed"]
       id = animal["id"].to_i
       customer_id = animal["customer_id"].to_i
-      animals.push(Animal.new({name: name, gender: gender, type: type, breed: breed, id: id, customer_id: customer_id}))
+      admittance_date = animal["admittance_date"]
+      animals.push(Animal.new({name: name, gender: gender, type: type, breed: breed, id: id, customer_id: customer_id, admittance_date: admittance_date}))
     end
-
     animals
   end
 
@@ -49,7 +50,25 @@ class Animal
       breed = animal["breed"]
       id = animal["id"].to_i
       customer_id = animal["customer_id"].to_i
-      animals.push(Animal.new({name: name, gender: gender, type: type, breed: breed, id: id, customer_id: customer_id}))
+      admittance_date = animal["admittance_date"]
+      animals.push(Animal.new({name: name, gender: gender, type: type, breed: breed, id: id, customer_id: customer_id, admittance_date: admittance_date}))
+    end
+    animals
+  end
+
+  def self.sort_chrono
+    returned_animals = DB.exec("SELECT * FROM animals ORDER BY admittance_date ASC;")
+    animals = []
+    returned_animals.each do |animal|
+      name = animal["name"]
+      gender = animal["gender"]
+      admittance_date = animal["admittance_date"]
+      type = animal["type"]
+      breed = animal["breed"]
+      id = animal["id"].to_i
+      customer_id = animal["customer_id"].to_i
+      admittance_date = animal["admittance_date"]
+      animals.push(Animal.new({name: name, gender: gender, type: type, breed: breed, id: id, customer_id: customer_id, admittance_date: admittance_date}))
     end
     animals
   end
@@ -93,7 +112,8 @@ class Animal
       breed = animal["breed"]
       id = animal["id"].to_i
       customer_id = animal["customer_id"].to_i
-      animals.push(Animal.new({name: name, gender: gender, type: type, breed: breed, id: id, customer_id: customer_id}))
+      admittance_date = animal["admittance_date"]
+      animals.push(Animal.new({name: name, gender: gender, type: type, breed: breed, id: id, customer_id: customer_id, admittance_date: admittance_date}))
     end
     animals
   end
